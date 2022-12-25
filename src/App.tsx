@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import Box from "@mui/material/Box/Box";
 import TextField from "@mui/material/TextField/TextField";
 import ButtonAppBar from "./components/ButtonAppBar";
-import TableSortSelect from "./components/TableSortSelect";
+import TableSortSelect from "./components/TableSortSelect/TableSortSelect";
 
 function App() {
   return (
