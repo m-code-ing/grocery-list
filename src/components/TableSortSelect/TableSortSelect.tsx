@@ -58,6 +58,7 @@ export default function TableSordSelect() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [rowSelected, setRowSelected] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -74,6 +75,7 @@ export default function TableSordSelect() {
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.name);
+      // const rowSelected = rows.map((n) => n);
       setSelected(newSelected);
       return;
     }
@@ -176,8 +178,17 @@ export default function TableSordSelect() {
                         scope="row"
                         padding="none"
                       >
+                        {row.id}
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
                         {row.name}
                       </TableCell>
+                      <TableCell align="right">{row.id}</TableCell>
                       <TableCell align="right">{row.calories}</TableCell>
                       <TableCell align="right">{row.fat}</TableCell>
                       <TableCell align="right">{row.carbs}</TableCell>
