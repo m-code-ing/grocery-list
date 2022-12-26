@@ -57,7 +57,6 @@ function stableSort<T>(
 export default function TableSordSelect() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [rowSelected, setRowSelected] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -75,37 +74,14 @@ export default function TableSordSelect() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = items.map((n) => n.name);
       const rowsSelected = items.map((n) => n.id);
 
-      setSelected(newSelected);
       setRowSelected(rowsSelected);
       return;
     }
-    setSelected([]);
   };
 
-  const handleClick = (
-    event: React.MouseEvent<unknown>,
-    name: string,
-    id: number
-  ) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
     setRowSelected(() => {
       if (rowSelected.includes(id)) {
         const index = rowSelected.indexOf(id);
@@ -114,7 +90,6 @@ export default function TableSordSelect() {
       }
       return [...rowSelected, id];
     });
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -132,7 +107,7 @@ export default function TableSordSelect() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: number) => rowSelected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty items.
   const emptyRows =
@@ -154,7 +129,7 @@ export default function TableSordSelect() {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
-          numSelected={selected.length}
+          numSelected={rowSelected.length}
           onDeleteRow={handleDeleteRows}
         />
         <TableContainer>
@@ -164,7 +139,7 @@ export default function TableSordSelect() {
             size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={rowSelected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
@@ -177,13 +152,13 @@ export default function TableSordSelect() {
               {stableSort(items, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name, row.id)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
