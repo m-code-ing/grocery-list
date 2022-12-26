@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import Box from "@mui/material/Box/Box";
 import TextField from "@mui/material/TextField/TextField";
 import ButtonAppBar from "./components/ButtonAppBar";
+import { rows } from "./components/TableSortSelect/data";
 import TableSortSelect from "./components/TableSortSelect/TableSortSelect";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         </Grid>
       </Grid>
       <Box sx={{ m: 10 }}>
-        <TableSortSelect />
+        <TableSortSelect data={rows} />
       </Box>
     </div>
   );

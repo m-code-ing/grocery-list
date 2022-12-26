@@ -10,20 +10,23 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { rows } from "./data";
 import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
 import { EnhancedTableHead } from "./EnhancedTableHead";
 import { Order, Data } from "./types";
 import { stableSort, getComparator } from "./utils";
 
-export default function TableSordSelect() {
+type TableSordSelectProps = {
+  data: Data[];
+};
+
+export default function TableSordSelect({ data }: TableSordSelectProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("category");
   const [rowSelected, setRowSelected] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [items, setItems] = React.useState<Data[]>(rows);
+  const [items, setItems] = React.useState<Data[]>(data);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
