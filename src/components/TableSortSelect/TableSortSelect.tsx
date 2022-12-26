@@ -56,7 +56,7 @@ function stableSort<T>(
 
 export default function TableSordSelect() {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("category");
   const [rowSelected, setRowSelected] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -125,6 +125,8 @@ export default function TableSordSelect() {
     });
   };
 
+  console.log({ items });
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -190,11 +192,10 @@ export default function TableSordSelect() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.category}</TableCell>
+                      <TableCell align="right">
+                        {row.lastDateOfPurchase}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
