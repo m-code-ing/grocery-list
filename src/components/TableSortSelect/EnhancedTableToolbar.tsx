@@ -1,17 +1,19 @@
 import { Toolbar, alpha, Typography, Tooltip, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { Data } from "./types";
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
-  selectedItems: any;
+  selectedRows: number[];
+  onDeleteRow: (items: Data) => void;
 }
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
 
   const handleDeleteItem = (items: any) => {
-    console.log({ items });
+    props.onDeleteRow(items);
   };
 
   return (
@@ -51,7 +53,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         <Tooltip title="Delete">
           <IconButton
             onClick={() => {
-              handleDeleteItem(props.selectedItems);
+              handleDeleteItem(props.selectedRows);
             }}
           >
             <DeleteIcon />
