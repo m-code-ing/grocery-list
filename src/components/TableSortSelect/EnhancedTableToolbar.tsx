@@ -40,7 +40,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Grocery Item List
         </Typography>
       )}
       {numSelected > 0 ? (
