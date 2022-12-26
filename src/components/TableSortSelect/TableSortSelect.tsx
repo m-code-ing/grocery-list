@@ -138,15 +138,24 @@ export default function TableSordSelect() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - items.length) : 0;
 
+  const handleDeleteRows = () => {
+    setItems(() => {
+      rowSelected.forEach((id) => {
+        const obj = items.find((item) => id === item.id);
+        const index = obj && items.indexOf(obj);
+        index !== undefined && items.splice(index, 1);
+      });
+
+      return [...items];
+    });
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={selected.length}
-          selectedRows={rowSelected}
-          onDeleteRow={(items) => {
-            console.log({ items });
-          }}
+          onDeleteRow={handleDeleteRows}
         />
         <TableContainer>
           <Table
